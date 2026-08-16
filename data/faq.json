@@ -2,7 +2,7 @@
   {"question":"Can I play Blockbuster Bomma even if I have a card matching the current Era?","answer":"Yes. Blockbuster Bomma is a strategic Wild card. You can play it even when you have a card from the current Era."},
   {"question":"Can CUT stop AADHI?","answer":"No. AADHI cannot be cut."},
   {"question":"Can CUT stop Interval Bang?","answer":"No. CUT cannot stop Interval Bang."},
-  {"question":"What happens if I cannot play a card?","answer":"Draw 1 card. Your turn ends after drawing. You do not keep drawing until you can play."},
-  {"question":"What happens if I forget to say SHUBHAM when I have one card?","answer":"Draw 3 more cards."},
+  {"question":"What happens if I cannot play a card?","answer":"Draw 1 card. Your turn ends after drawing."},
+  {"question":"What happens if I forget to say SHUBAM when I have one card?","answer":"Draw 3 more cards."},
   {"question":"Does the game stop when one player reaches zero cards?","answer":"No. That player finishes first, and the remaining players continue until only one loser remains."}
 ]
