@@ -175,7 +175,7 @@
             <span class="navigation-number">03</span>
             <h3>How to Write Cards</h3>
             <p>
-              Learn the official movie-writing rules.
+              Learn the official card-writing rules.
             </p>
           </div>
 
@@ -572,20 +572,110 @@
         <h2 data-i18n="eraTitle">
           Era Guide
         </h2>
-
-        <p>
-          SHUBAM uses four cinema Eras.
-          Era membership is defined by SHUBAM's actor list —
-          not by release-year assumptions.
+        <p class="era-intro">
+          SHUBAM works based on four different Eras of Telugu Cinema.
+          Each Era is represented by its own colour.
         </p>
 
       </div>
+      
+  <!-- =========================
+       FOUR ERAS
+  ========================== -->
+      <div class="era-colour-list">
+        <div class="era-colour-item">
+          <span class="era-colour-dot era-golden"></span>
+          <span>Golden Era</span>
+        </div>
+        <div class="era-colour-item">
+          <span class="era-colour-dot era-mass"></span>
+          <span>Mass Era</span>
+        </div>
+        <div class="era-colour-item">
+          <span class="era-colour-dot era-stars"></span>
+          <span>Stars Era</span>
+        </div>
+        <div class="era-colour-item">
+          <span class="era-colour-dot era-new-wave"></span>
+          <span>New Wave Era</span>
+        </div>
+      </div>
 
 
-      <div class="era-grid" id="eraGrid"></div>
+  <!-- =========================
+       ERA EXPLANATION
+  ========================== -->
+      <div class="era-explanation">
+        <p>
+          Each Era is divided based on <strong>Actors</strong>.
+          Search for an actor below to find out which Era they belong to.
+        </p>
+        <p>
+          The movies of that particular actor belong to that
+          particular Era — and therefore use that Era's colour in SHUBAM.
+        </p>
+      </div>
 
+
+  <!-- =========================
+       ACTOR SEARCH
+  ========================== -->
+      <div class="actor-search-box">
+        <div class="actor-search-heading">
+          <h3>Find an Actor's Era</h3>
+          <p>
+            Search for an actor to discover which SHUBAM Era they belong to.
+          </p>
+        </div>
+        
+        <div class="actor-search">
+          <div class="actor-search-input-wrap">
+            <input
+              type="search"
+              id="actorSearch"
+              name="actorSearch"
+              autocomplete="off"
+              placeholder="Search actor..."
+              aria-label="Search actor"
+              aria-autocomplete="list"
+              aria-controls="actorSuggestions"
+            />
+
+            <!-- Suggestions will be generated here by JavaScript -->
+
+            <div
+              id="actorSuggestions"
+              class="actor-suggestions"
+              role="listbox"
+              aria-label="Actor suggestions"
+            ></div>
+    
+          </div>
+
+
+          <button
+            type="button"
+            id="actorSearchButton"
+            class="btn primary"
+          >
+            Search
+          </button>
+        </div>
+
+
+    <!-- =========================
+         SEARCH RESULT
+    ========================== -->
+
+        <div
+          id="actorSearchResult"
+          class="actor-search-result"
+          aria-live="polite"
+        ></div>
+    
+      </div>
+    
     </section>
-
 
     <!-- =========================
          MOVIE COLLECTION
