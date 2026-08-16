@@ -2349,3 +2349,29 @@ body.light .era-colour-item {
   }
 
 }
+.era-colour-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.era-icon {
+  flex-shrink: 0;
+}
+
+/* Icon Colors mapped to your SHUBAM variables */
+.icon-golden {
+  stroke: var(--gold, #ffdf09);
+}
+
+.icon-mass {
+  stroke: var(--orange, #ff751f);
+}
+
+.icon-stars {
+  stroke: var(--purple, #c538ff);
+}
+
+.icon-new-wave {
+  stroke: var(--green, #1de90b);
+}
