@@ -1,162 +1,1485 @@
-const DATA_URLS = {
-  cards: "data/cards.json",
-  movies: "data/movies.json",
-  eras: "data/eras.json",
-  memes: "data/memes.json",
-  faq: "data/faq.json"
-};
+/* =========================================================
+   SHUBAM
+   Write. Shuffle. Play.
 
-const state = { cards: [], movies: [], eras: [], memes: [], faq: [] };
+   Main website logic
 
-const eraMeta = {
-  golden: { icon:"🟡", label:"Golden Era", cls:"golden", color:"#ffdf09" },
-  mass: { icon:"🟠", label:"Mass Era", cls:"mass", color:"#ff751f" },
-  stars: { icon:"🟣", label:"Stars Era", cls:"stars", color:"#c538ff" },
-  "new-wave": { icon:"🟢", label:"New Wave Era", cls:"new-wave", color:"#1de90b" }
-};
+   IMPORTANT:
+   Content is intentionally kept data-driven.
+   Later we can move/update:
+   - 113 physical cards
+   - movie collection
+   - meme dialogues
+   - era / actor information
+   - FAQs
 
-async function loadData() {
-  for (const [key, url] of Object.entries(DATA_URLS)) {
-    try {
-      const res = await fetch(url);
-      state[key] = await res.json();
-    } catch (e) {
-      console.warn(`Could not load ${url}`, e);
-      state[key] = [];
-    }
+   without rebuilding the website.
+========================================================= */
+
+
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
+
+let cardsData = [];
+let moviesData = [];
+let memesData = [];
+let erasData = [];
+let faqData = [];
+
+let currentLanguage = "en";
+
+
+/* =========================================================
+   DEFAULT / STARTER DATA
+
+   These are temporary foundation entries.
+   We will replace them with your official data later.
+========================================================= */
+
+
+/* ---------- ERAS ---------- */
+
+erasData = [
+
+  {
+    id: "golden",
+    name: "Golden Era",
+    colour: "#ffdf09",
+    emoji: "🟡",
+    actors: [
+      "NTR",
+      "ANR"
+    ],
+    description:
+      "The Golden Era represents the classic generation of Telugu cinema."
+  },
+
+  {
+    id: "mass",
+    name: "Mass Era",
+    colour: "#ff751f",
+    emoji: "🟠",
+    actors: [
+      "Chiranjeevi",
+      "Balakrishna",
+      "Venkatesh",
+      "Nagarjuna"
+    ],
+    description:
+      "The Mass Era represents the generation of iconic mass and family entertainers."
+  },
+
+  {
+    id: "stars",
+    name: "Stars Era",
+    colour: "#c538ff",
+    emoji: "🟣",
+    actors: [
+      "Mahesh Babu",
+      "Prabhas",
+      "Allu Arjun"
+    ],
+    description:
+      "The Stars Era represents the modern generation of Telugu cinema stars."
+  },
+
+  {
+    id: "new-wave",
+    name: "New Wave Era",
+    colour: "#1de90b",
+    emoji: "🟢",
+    actors: [
+      "Vijay Deverakonda",
+      "Kiran Abbavaram"
+    ],
+    description:
+      "The New Wave Era represents the newer generation of Telugu cinema."
   }
-  renderAll();
-}
 
-function renderAll() {
-  renderCards();
+];
+
+
+/* ---------- STARTER CARDS ---------- */
+
+cardsData = [
+
+  {
+    id: "sample-1",
+    name: "Sample Number Card",
+    type: "number",
+    number: 3,
+    era: "stars",
+    description:
+      "Temporary card entry. Official card data will be added later."
+  },
+
+  {
+    id: "sample-dd",
+    name: "Double Dhamaka",
+    type: "power",
+    era: "mass",
+    description:
+      "Give any two cards from your hand to one player when the official conditions are met."
+  },
+
+  {
+    id: "sample-cut",
+    name: "CUT",
+    type: "power",
+    era: "mass",
+    description:
+      "Can stop Double Dhamaka or the +4 effect of All Time Industry Hittu when the official conditions are met."
+  },
+
+  {
+    id: "sample-interval",
+    name: "Interval Bang",
+    type: "power",
+    era: "golden",
+    description:
+      "The next player misses one turn."
+  },
+
+  {
+    id: "sample-bomma",
+    name: "Blockbuster Bomma",
+    type: "wild",
+    era: "stars",
+    description:
+      "Changes the current Era to the Era of the card."
+  },
+
+  {
+    id: "sample-atih",
+    name: "All Time Industry Hittu",
+    type: "power",
+    era: "new-wave",
+    description:
+      "Reverse the direction and create the +4 effect."
+  },
+
+  {
+    id: "aadhi",
+    name: "AADHI",
+    type: "unique",
+    era: null,
+    description:
+      "The unique ultimate power card. Swap your entire hand with another player's entire hand."
+  }
+
+];
+
+
+/* ---------- STARTER MOVIES ---------- */
+
+moviesData = [
+
+  {
+    id: "sample-movie",
+    title: "Sample Movie",
+    actor: "Sample Actor",
+    era: "stars",
+    notes: "Temporary database entry."
+  }
+
+];
+
+
+/* ---------- STARTER MEMES ---------- */
+
+memesData = [
+
+  {
+    id: "sample-meme",
+    dialogue: "Sample meme dialogue",
+    era: "mass",
+    notes: "Temporary entry."
+  }
+
+];
+
+
+/* ---------- FAQ ---------- */
+
+faqData = [
+
+  {
+    question: "How many players can play SHUBAM?",
+    answer:
+      "SHUBAM can be played by 2–10 players."
+  },
+
+  {
+    question: "How many cards are in the physical deck?",
+    answer:
+      "The physical SHUBAM deck contains 113 playable/reference cards as defined by the official card list."
+  },
+
+  {
+    question: "What are the four Eras?",
+    answer:
+      "Golden Era, Mass Era, Stars Era and New Wave Era."
+  },
+
+  {
+    question: "Can I suggest a movie?",
+    answer:
+      "Yes. Use the Submit a Movie section to suggest a movie that is not currently in the online collection."
+  },
+
+  {
+    question: "Will the movie collection change?",
+    answer:
+      "Yes. The online collection is designed to grow over time without changing the website structure."
+  }
+
+];
+
+
+/* =========================================================
+   DOM READY
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  initialiseTheme();
+
+  initialiseLanguage();
+
   renderEras();
+
+  renderCards();
+
   renderMovies();
+
   renderMemes();
-  renderFaq();
-  document.getElementById("cardSummary").innerHTML = `
-    <span>🎴 113 physical cards</span>
-    <span>🔢 72 number cards</span>
-    <span>⚡ 40 special cards</span>
-    <span>👑 1 AADHI</span>`;
-}
 
-function eraLabel(era) {
-  return eraMeta[era] ? `${eraMeta[era].icon} ${eraMeta[era].label}` : "No Era";
-}
+  renderFAQ();
 
-function renderCards() {
-  const q = document.getElementById("cardSearch").value.toLowerCase();
-  const type = document.getElementById("cardTypeFilter").value;
-  const era = document.getElementById("cardEraFilter").value;
-  const cards = state.cards.filter(c => {
-    const matchesQ = `${c.name} ${c.type} ${c.era || ""} ${c.number || ""}`.toLowerCase().includes(q);
-    const matchesType = type === "all" || c.type === type;
-    const matchesEra = era === "all" || (era === "none" ? !c.era : c.era === era);
-    return matchesQ && matchesType && matchesEra;
+  initialiseNavigation();
+
+  initialiseSearch();
+
+  initialiseRandomMovie();
+
+  initialiseSubmitForm();
+
+});
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function initialiseTheme() {
+
+  const toggle = document.getElementById("themeToggle");
+
+  if (!toggle) return;
+
+
+  const savedTheme =
+    localStorage.getItem("shubam-theme");
+
+
+  if (savedTheme === "light") {
+
+    document.body.classList.add("light");
+
+    toggle.textContent = "☾";
+
+  } else {
+
+    document.body.classList.remove("light");
+
+    toggle.textContent = "☼";
+
+  }
+
+
+  toggle.addEventListener("click", () => {
+
+    document.body.classList.toggle("light");
+
+
+    const isLight =
+      document.body.classList.contains("light");
+
+
+    localStorage.setItem(
+      "shubam-theme",
+      isLight ? "light" : "dark"
+    );
+
+
+    toggle.textContent =
+      isLight ? "☾" : "☼";
+
   });
 
-  document.getElementById("cardsGrid").innerHTML = cards.map(c => {
-    const meta = c.era ? eraMeta[c.era] : eraMeta["none"];
-    return `<article class="card-item">
-      <div class="card-chip ${meta ? "era-"+meta.cls : "era-none"}">${c.display || c.number || "★"}</div>
-      <div class="meta">${c.count || 1} card${(c.count||1) === 1 ? "" : "s"} · ${c.type}</div>
-      <h3>${c.name}</h3>
-      <div class="meta">${c.era ? eraLabel(c.era) : "No Era / No Number"}</div>
-      <p>${c.description || ""}</p>
-    </article>`;
-  }).join("") || `<div class="card-item"><h3>No cards found</h3><p class="meta">Try another search or filter.</p></div>`;
 }
+
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+function initialiseLanguage() {
+
+  const toggle =
+    document.getElementById("langToggle");
+
+  if (!toggle) return;
+
+
+  const savedLanguage =
+    localStorage.getItem("shubam-language");
+
+
+  if (savedLanguage === "te") {
+
+    currentLanguage = "te";
+
+    toggle.textContent = "EN";
+
+    applyTelugu();
+
+  } else {
+
+    currentLanguage = "en";
+
+    toggle.textContent = "తెలుగు";
+
+    applyEnglish();
+
+  }
+
+
+  toggle.addEventListener("click", () => {
+
+    if (currentLanguage === "en") {
+
+      currentLanguage = "te";
+
+      localStorage.setItem(
+        "shubam-language",
+        "te"
+      );
+
+      toggle.textContent = "EN";
+
+      applyTelugu();
+
+    } else {
+
+      currentLanguage = "en";
+
+      localStorage.setItem(
+        "shubam-language",
+        "en"
+      );
+
+      toggle.textContent = "తెలుగు";
+
+      applyEnglish();
+
+    }
+
+  });
+
+}
+
+
+/* =========================================================
+   LANGUAGE SYSTEM
+
+   NOTE:
+   You said you will provide the Telugu translations.
+   Therefore these are placeholders only.
+========================================================= */
+
+const translations = {
+
+  en: {
+
+    heroText:
+      "Choose your movie. Write it right. Play your cards. Be the first to empty your hand.",
+
+    players:
+      "Players",
+
+    physicalCards:
+      "Physical Cards",
+
+    eras:
+      "Eras",
+
+    howTitle:
+      "How to Play",
+
+    howIntro:
+      "Simple enough to learn quickly. Strategic enough to keep every round interesting.",
+
+    getReady:
+      "Get Ready",
+
+    startGameTitle:
+      "Start",
+
+    match:
+      "Match",
+
+    powers:
+      "Use Powers",
+
+    shubamCall:
+      "Say SHUBAM",
+
+    finish:
+      "Finish",
+
+    cardsTitle:
+      "All Cards",
+
+    writeTitle:
+      "How to Write Cards",
+
+    eraTitle:
+      "Era Guide",
+
+    moviesTitle:
+      "Movie Collection",
+
+    memesTitle:
+      "Meme Dialogues",
+
+    faqTitle:
+      "FAQ",
+
+    submitTitle:
+      "Submit a Movie"
+
+  },
+
+
+  te: {
+
+    heroText:
+      "TELUGU TRANSLATION WILL BE PROVIDED BY YOU.",
+
+    players:
+      "PLAYERS",
+
+    physicalCards:
+      "PHYSICAL CARDS",
+
+    eras:
+      "ERAS",
+
+    howTitle:
+      "HOW TO PLAY",
+
+    howIntro:
+      "TELUGU TRANSLATION WILL BE PROVIDED BY YOU.",
+
+    getReady:
+      "GET READY",
+
+    startGameTitle:
+      "START",
+
+    match:
+      "MATCH",
+
+    powers:
+      "USE POWERS",
+
+    shubamCall:
+      "SAY SHUBAM",
+
+    finish:
+      "FINISH",
+
+    cardsTitle:
+      "ALL CARDS",
+
+    writeTitle:
+      "HOW TO WRITE CARDS",
+
+    eraTitle:
+      "ERA GUIDE",
+
+    moviesTitle:
+      "MOVIE COLLECTION",
+
+    memesTitle:
+      "MEME DIALOGUES",
+
+    faqTitle:
+      "FAQ",
+
+    submitTitle:
+      "SUBMIT A MOVIE"
+
+  }
+
+};
+
+
+function applyLanguage(language) {
+
+  const dictionary =
+    translations[language];
+
+  if (!dictionary) return;
+
+
+  document
+    .querySelectorAll("[data-i18n]")
+    .forEach(element => {
+
+      const key =
+        element.getAttribute("data-i18n");
+
+
+      if (dictionary[key]) {
+
+        element.textContent =
+          dictionary[key];
+
+      }
+
+    });
+
+}
+
+
+function applyEnglish() {
+
+  applyLanguage("en");
+
+}
+
+
+function applyTelugu() {
+
+  applyLanguage("te");
+
+}
+
+
+/* =========================================================
+   ERA GUIDE
+========================================================= */
 
 function renderEras() {
-  document.getElementById("eraGrid").innerHTML = state.eras.map(e => `
-    <article class="era-card ${e.id}">
-      <div class="era-icon">${eraMeta[e.id]?.icon || "🎬"}</div>
-      <h3>${e.name}</h3>
-      <p>${e.description}</p>
-      <div class="actor-list"><strong>Current actors:</strong><br>${e.actors.join(", ")}</div>
-    </article>`).join("");
-}
 
-function renderMovies() {
-  const q = document.getElementById("movieSearch").value.toLowerCase();
-  const era = document.getElementById("movieEraFilter").value;
-  const movies = state.movies.filter(m => {
-    const hay = `${m.title} ${m.actor || ""} ${m.era || ""}`.toLowerCase();
-    return hay.includes(q) && (era === "all" || m.era === era);
+  const container =
+    document.getElementById("eraGrid");
+
+  if (!container) return;
+
+
+  container.innerHTML = "";
+
+
+  erasData.forEach(era => {
+
+    const card =
+      document.createElement("article");
+
+
+    card.className = "era-card";
+
+
+    card.style.setProperty(
+      "--era-colour",
+      era.colour
+    );
+
+
+    const actors =
+      era.actors.join(", ");
+
+
+    card.innerHTML = `
+
+      <span class="eyebrow">
+        ${era.emoji} ${era.id}
+      </span>
+
+      <h3>
+        ${era.name}
+      </h3>
+
+      <p>
+        ${era.description}
+      </p>
+
+      <div class="actors">
+        Actors: ${actors}
+      </div>
+
+    `;
+
+
+    container.appendChild(card);
+
   });
-  document.getElementById("movieCount").textContent = `${movies.length} movie${movies.length === 1 ? "" : "s"} shown · Collection grows independently from the 113 physical cards.`;
-  document.getElementById("movieGrid").innerHTML = movies.map(m => `
-    <article class="movie-item">
-      <div class="meta">${eraLabel(m.era)} · ${m.letters ? m.letters + " letters" : "Letter count pending"}</div>
-      <h3>${m.title}</h3>
-      <div class="meta">${m.actor || ""}</div>
-      ${m.note ? `<div class="tag">${m.note}</div>` : ""}
-    </article>`).join("") || `<div class="movie-item"><h3>No movies found</h3><p class="meta">Your collection can be populated in data/movies.json.</p></div>`;
+
 }
 
-function renderMemes() {
-  const q = document.getElementById("memeSearch").value.toLowerCase();
-  const era = document.getElementById("memeEraFilter").value;
-  const memes = state.memes.filter(m => {
-    return `${m.dialogue} ${m.actor || ""}`.toLowerCase().includes(q) && (era === "all" || m.era === era);
+
+/* =========================================================
+   CARD RENDERING
+========================================================= */
+
+function renderCards(
+  searchTerm = "",
+  typeFilter = "all",
+  eraFilter = "all"
+) {
+
+  const container =
+    document.getElementById("cardsGrid");
+
+  const summary =
+    document.getElementById("cardSummary");
+
+
+  if (!container) return;
+
+
+  const search =
+    searchTerm.trim().toLowerCase();
+
+
+  const filtered =
+    cardsData.filter(card => {
+
+      const matchesSearch =
+        !search ||
+
+        card.name
+          .toLowerCase()
+          .includes(search) ||
+
+        card.description
+          .toLowerCase()
+          .includes(search);
+
+
+      const matchesType =
+        typeFilter === "all" ||
+        card.type === typeFilter;
+
+
+      const matchesEra =
+        eraFilter === "all" ||
+
+        (eraFilter === "none" && !card.era) ||
+
+        card.era === eraFilter;
+
+
+      return (
+        matchesSearch &&
+        matchesType &&
+        matchesEra
+      );
+
+    });
+
+
+  container.innerHTML = "";
+
+
+  if (filtered.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="empty-state">
+        No cards found.
+      </div>
+
+    `;
+
+  }
+
+
+  filtered.forEach(card => {
+
+    const element =
+      document.createElement("article");
+
+
+    element.className = "card-item";
+
+
+    const era =
+      erasData.find(
+        item => item.id === card.era
+      );
+
+
+    const colour =
+      era
+        ? era.colour
+        : "#ffffff";
+
+
+    element.style.setProperty(
+      "--card-colour",
+      colour
+    );
+
+
+    const eraName =
+      era
+        ? `${era.emoji} ${era.name}`
+        : "No Era";
+
+
+    element.innerHTML = `
+
+      <span class="movie-era">
+        ${eraName}
+      </span>
+
+      <h3>
+        ${card.name}
+      </h3>
+
+      <p>
+        ${card.description}
+      </p>
+
+    `;
+
+
+    container.appendChild(element);
+
   });
-  document.getElementById("memeGrid").innerHTML = memes.map(m => `
-    <article class="meme-item">
-      <div class="meta">${eraLabel(m.era)}</div>
-      <blockquote>“${m.dialogue}”</blockquote>
-      <div class="tag">${m.actor || "Meme dialogue"}</div>
-    </article>`).join("") || `<div class="meme-item"><h3>No meme dialogues yet</h3><p class="meta">Add them later in data/memes.json.</p></div>`;
+
+
+  if (summary) {
+
+    summary.textContent =
+      `${filtered.length} card${filtered.length === 1 ? "" : "s"} shown`;
+
+  }
+
 }
 
-function renderFaq() {
-  document.getElementById("faqList").innerHTML = state.faq.map((f, i) => `
-    <article class="faq-item">
-      <button class="faq-q" aria-expanded="false">${f.question}<span>＋</span></button>
-      <div class="faq-a">${f.answer}</div>
-    </article>`).join("");
-  document.querySelectorAll(".faq-q").forEach(btn => btn.addEventListener("click", () => {
-    const item = btn.parentElement;
-    item.classList.toggle("open");
-    btn.setAttribute("aria-expanded", item.classList.contains("open"));
-    btn.querySelector("span").textContent = item.classList.contains("open") ? "−" : "＋";
-  }));
+
+/* =========================================================
+   MOVIE COLLECTION
+========================================================= */
+
+function renderMovies(
+  searchTerm = "",
+  eraFilter = "all"
+) {
+
+  const container =
+    document.getElementById("movieGrid");
+
+  const count =
+    document.getElementById("movieCount");
+
+
+  if (!container) return;
+
+
+  const search =
+    searchTerm.trim().toLowerCase();
+
+
+  const filtered =
+    moviesData.filter(movie => {
+
+      const matchesSearch =
+        !search ||
+
+        movie.title
+          .toLowerCase()
+          .includes(search) ||
+
+        movie.actor
+          .toLowerCase()
+          .includes(search);
+
+
+      const matchesEra =
+        eraFilter === "all" ||
+        movie.era === eraFilter;
+
+
+      return (
+        matchesSearch &&
+        matchesEra
+      );
+
+    });
+
+
+  container.innerHTML = "";
+
+
+  if (filtered.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="empty-state">
+
+        No movies found.
+
+      </div>
+
+    `;
+
+  }
+
+
+  filtered.forEach(movie => {
+
+    const element =
+      document.createElement("article");
+
+
+    element.className =
+      "movie-card";
+
+
+    const era =
+      erasData.find(
+        item => item.id === movie.era
+      );
+
+
+    const eraName =
+      era
+        ? `${era.emoji} ${era.name}`
+        : "Unknown Era";
+
+
+    element.innerHTML = `
+
+      <span class="movie-era">
+        ${eraName}
+      </span>
+
+      <h3>
+        ${movie.title}
+      </h3>
+
+      <p>
+        ${movie.actor}
+      </p>
+
+      ${
+        movie.notes
+          ? `<p>${movie.notes}</p>`
+          : ""
+      }
+
+    `;
+
+
+    container.appendChild(element);
+
+  });
+
+
+  if (count) {
+
+    count.textContent =
+      `${filtered.length} movie${filtered.length === 1 ? "" : "s"} shown`;
+
+  }
+
 }
 
-["cardSearch","cardTypeFilter","cardEraFilter"].forEach(id => document.getElementById(id).addEventListener("input", renderCards));
-["movieSearch","movieEraFilter"].forEach(id => document.getElementById(id).addEventListener("input", renderMovies));
-["memeSearch","memeEraFilter"].forEach(id => document.getElementById(id).addEventListener("input", renderMemes));
 
-document.getElementById("randomMovie").addEventListener("click", () => {
-  if (!state.movies.length) return alert("The movie collection is ready for your data.");
-  const movie = state.movies[Math.floor(Math.random() * state.movies.length)];
-  document.getElementById("movieSearch").value = movie.title;
-  document.getElementById("movieEraFilter").value = "all";
-  renderMovies();
-  document.getElementById("movies").scrollIntoView({behavior:"smooth"});
-});
+/* =========================================================
+   MEME COLLECTION
+========================================================= */
 
-document.getElementById("themeToggle").addEventListener("click", () => {
-  const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-  document.documentElement.dataset.theme = next;
-  localStorage.setItem("shubham-theme", next);
-});
+function renderMemes(
+  searchTerm = "",
+  eraFilter = "all"
+) {
 
-const savedTheme = localStorage.getItem("shubham-theme");
-if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+  const container =
+    document.getElementById("memeGrid");
 
-document.getElementById("menuToggle").addEventListener("click", () => {
-  document.getElementById("mainNav").classList.toggle("open");
-});
 
-document.getElementById("langToggle").addEventListener("click", () => {
-  alert("Telugu content is structured into the site and can be added to the data/content layer when you provide the translations.");
-});
+  if (!container) return;
 
-document.getElementById("movieForm").addEventListener("submit", e => {
-  e.preventDefault();
-  document.getElementById("formNote").textContent = "Suggestion captured for review. To connect this form to a real submission service, add the endpoint later.";
-  e.target.reset();
-});
 
-loadData();
+  const search =
+    searchTerm.trim().toLowerCase();
+
+
+  const filtered =
+    memesData.filter(meme => {
+
+      const matchesSearch =
+        !search ||
+
+        meme.dialogue
+          .toLowerCase()
+          .includes(search);
+
+
+      const matchesEra =
+        eraFilter === "all" ||
+        meme.era === eraFilter;
+
+
+      return (
+        matchesSearch &&
+        matchesEra
+      );
+
+    });
+
+
+  container.innerHTML = "";
+
+
+  if (filtered.length === 0) {
+
+    container.innerHTML = `
+
+      <div class="empty-state">
+        No meme dialogues found.
+      </div>
+
+    `;
+
+  }
+
+
+  filtered.forEach(meme => {
+
+    const element =
+      document.createElement("article");
+
+
+    element.className =
+      "meme-card";
+
+
+    const era =
+      erasData.find(
+        item => item.id === meme.era
+      );
+
+
+    element.innerHTML = `
+
+      <blockquote>
+        ${meme.dialogue}
+      </blockquote>
+
+      <small>
+        ${era ? era.emoji + " " + era.name : ""}
+      </small>
+
+    `;
+
+
+    container.appendChild(element);
+
+  });
+
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+function renderFAQ() {
+
+  const container =
+    document.getElementById("faqList");
+
+
+  if (!container) return;
+
+
+  container.innerHTML = "";
+
+
+  faqData.forEach((faq, index) => {
+
+    const item =
+      document.createElement("article");
+
+
+    item.className =
+      "faq-item";
+
+
+    item.innerHTML = `
+
+      <button
+        class="faq-question"
+        type="button"
+        aria-expanded="false"
+      >
+
+        <span>
+          ${faq.question}
+        </span>
+
+        <span>
+          +
+        </span>
+
+      </button>
+
+      <div
+        class="faq-answer"
+        hidden
+      >
+        ${faq.answer}
+      </div>
+
+    `;
+
+
+    const button =
+      item.querySelector(".faq-question");
+
+
+    const answer =
+      item.querySelector(".faq-answer");
+
+
+    button.addEventListener("click", () => {
+
+      const open =
+        button.getAttribute("aria-expanded")
+          === "true";
+
+
+      button.setAttribute(
+        "aria-expanded",
+        String(!open)
+      );
+
+
+      answer.hidden = open;
+
+
+      button.lastElementChild.textContent =
+        open ? "+" : "−";
+
+    });
+
+
+    container.appendChild(item);
+
+  });
+
+}
+
+
+/* =========================================================
+   SEARCH / FILTERS
+========================================================= */
+
+function initialiseSearch() {
+
+  const cardSearch =
+    document.getElementById("cardSearch");
+
+  const cardType =
+    document.getElementById("cardTypeFilter");
+
+  const cardEra =
+    document.getElementById("cardEraFilter");
+
+
+  function updateCards() {
+
+    renderCards(
+
+      cardSearch
+        ? cardSearch.value
+        : "",
+
+      cardType
+        ? cardType.value
+        : "all",
+
+      cardEra
+        ? cardEra.value
+        : "all"
+
+    );
+
+  }
+
+
+  if (cardSearch) {
+
+    cardSearch.addEventListener(
+      "input",
+      updateCards
+    );
+
+  }
+
+
+  if (cardType) {
+
+    cardType.addEventListener(
+      "change",
+      updateCards
+    );
+
+  }
+
+
+  if (cardEra) {
+
+    cardEra.addEventListener(
+      "change",
+      updateCards
+    );
+
+  }
+
+
+  const movieSearch =
+    document.getElementById("movieSearch");
+
+  const movieEra =
+    document.getElementById("movieEraFilter");
+
+
+  function updateMovies() {
+
+    renderMovies(
+
+      movieSearch
+        ? movieSearch.value
+        : "",
+
+      movieEra
+        ? movieEra.value
+        : "all"
+
+    );
+
+  }
+
+
+  if (movieSearch) {
+
+    movieSearch.addEventListener(
+      "input",
+      updateMovies
+    );
+
+  }
+
+
+  if (movieEra) {
+
+    movieEra.addEventListener(
+      "change",
+      updateMovies
+    );
+
+  }
+
+
+  const memeSearch =
+    document.getElementById("memeSearch");
+
+  const memeEra =
+    document.getElementById("memeEraFilter");
+
+
+  function updateMemes() {
+
+    renderMemes(
+
+      memeSearch
+        ? memeSearch.value
+        : "",
+
+      memeEra
+        ? memeEra.value
+        : "all"
+
+    );
+
+  }
+
+
+  if (memeSearch) {
+
+    memeSearch.addEventListener(
+      "input",
+      updateMemes
+    );
+
+  }
+
+
+  if (memeEra) {
+
+    memeEra.addEventListener(
+      "change",
+      updateMemes
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   RANDOM MOVIE
+========================================================= */
+
+function initialiseRandomMovie() {
+
+  const button =
+    document.getElementById("randomMovie");
+
+
+  if (!button) return;
+
+
+  button.addEventListener("click", () => {
+
+    if (moviesData.length === 0) return;
+
+
+    const randomIndex =
+      Math.floor(
+        Math.random() * moviesData.length
+      );
+
+
+    const movie =
+      moviesData[randomIndex];
+
+
+    const movieSearch =
+      document.getElementById("movieSearch");
+
+
+    if (movieSearch) {
+
+      movieSearch.value =
+        movie.title;
+
+    }
+
+
+    renderMovies(
+      movie.title,
+      "all"
+    );
+
+
+    const movieSection =
+      document.getElementById("movies");
+
+
+    if (movieSection) {
+
+      movieSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+  });
+
+}
+
+
+/* =========================================================
+   SUBMIT MOVIE
+========================================================= */
+
+function initialiseSubmitForm() {
+
+  const form =
+    document.getElementById("movieForm");
+
+  const note =
+    document.getElementById("formNote");
+
+
+  if (!form) return;
+
+
+  form.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+
+    const formData =
+      new FormData(form);
+
+
+    const movie =
+      formData.get("movie");
+
+
+    const actor =
+      formData.get("actor");
+
+
+    const notes =
+      formData.get("notes");
+
+
+    /*
+      IMPORTANT:
+
+      This currently does NOT add the submission
+      directly to the official collection.
+
+      Later we can connect this to:
+      - GitHub Issues
+      - Google Forms
+      - Formspree
+      - a database
+      - another backend
+
+      depending on how you want submissions handled.
+    */
+
+
+    console.log(
+      "SHUBAM Movie Submission:",
+      {
+        movie,
+        actor,
+        notes
+      }
+    );
+
+
+    if (note) {
+
+      note.textContent =
+        "Thank you! Your movie suggestion has been recorded for review.";
+
+    }
+
+
+    form.reset();
+
+  });
+
+}
+
+
+/* =========================================================
+   SMOOTH NAVIGATION
+========================================================= */
+
+function initialiseNavigation() {
+
+  document
+    .querySelectorAll('a[href^="#"]')
+    .forEach(link => {
+
+      link.addEventListener("click", event => {
+
+        const targetId =
+          link.getAttribute("href");
+
+
+        if (
+          !targetId ||
+          targetId === "#"
+        ) {
+
+          return;
+
+        }
+
+
+        const target =
+          document.querySelector(targetId);
+
+
+        if (!target) return;
+
+
+        event.preventDefault();
+
+
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      });
+
+    });
+
+}
+
+
+/* =========================================================
+   FUTURE DATA LOADING FOUNDATION
+
+   Later we can replace the temporary arrays above with:
+
+   /data/cards.json
+   /data/movies.json
+   /data/memes.json
+   /data/eras.json
+   /data/faq.json
+
+   Then the website can fetch them without changing
+   the actual website structure.
+
+   Example future function:
+
+   async function loadData() {
+
+      cardsData =
+        await fetch("data/cards.json")
+          .then(response => response.json());
+
+      moviesData =
+        await fetch("data/movies.json")
+          .then(response => response.json());
+
+      memesData =
+        await fetch("data/memes.json")
+          .then(response => response.json());
+
+      erasData =
+        await fetch("data/eras.json")
+          .then(response => response.json());
+
+      faqData =
+        await fetch("data/faq.json")
+          .then(response => response.json());
+
+      renderEverything();
+   }
+
+========================================================= */
+
+
+/* =========================================================
+   END OF SHUBAM APP
+========================================================= */
