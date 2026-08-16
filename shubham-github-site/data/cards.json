@@ -1,0 +1,68 @@
+[
+  {"id":"n-g-1","name":"Number 1","type":"number","era":"golden","number":1,"display":"1","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-2","name":"Number 2","type":"number","era":"golden","number":2,"display":"2","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-3","name":"Number 3","type":"number","era":"golden","number":3,"display":"3","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-4","name":"Number 4","type":"number","era":"golden","number":4,"display":"4","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-5","name":"Number 5","type":"number","era":"golden","number":5,"display":"5","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-6","name":"Number 6","type":"number","era":"golden","number":6,"display":"6","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-7","name":"Number 7","type":"number","era":"golden","number":7,"display":"7","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-8","name":"Number 8","type":"number","era":"golden","number":8,"display":"8","count":2,"description":"Golden Era number card."},
+  {"id":"n-g-9","name":"Number 9","type":"number","era":"golden","number":9,"display":"9","count":2,"description":"Golden Era number card."},
+
+  {"id":"n-m-1","name":"Number 1","type":"number","era":"mass","number":1,"display":"1","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-2","name":"Number 2","type":"number","era":"mass","number":2,"display":"2","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-3","name":"Number 3","type":"number","era":"mass","number":3,"display":"3","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-4","name":"Number 4","type":"number","era":"mass","number":4,"display":"4","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-5","name":"Number 5","type":"number","era":"mass","number":5,"display":"5","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-6","name":"Number 6","type":"number","era":"mass","number":6,"display":"6","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-7","name":"Number 7","type":"number","era":"mass","number":7,"display":"7","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-8","name":"Number 8","type":"number","era":"mass","number":8,"display":"8","count":2,"description":"Mass Era number card."},
+  {"id":"n-m-9","name":"Number 9","type":"number","era":"mass","number":9,"display":"9","count":2,"description":"Mass Era number card."},
+
+  {"id":"n-s-1","name":"Number 1","type":"number","era":"stars","number":1,"display":"1","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-2","name":"Number 2","type":"number","era":"stars","number":2,"display":"2","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-3","name":"Number 3","type":"number","era":"stars","number":3,"display":"3","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-4","name":"Number 4","type":"number","era":"stars","number":4,"display":"4","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-5","name":"Number 5","type":"number","era":"stars","number":5,"display":"5","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-6","name":"Number 6","type":"number","era":"stars","number":6,"display":"6","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-7","name":"Number 7","type":"number","era":"stars","number":7,"display":"7","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-8","name":"Number 8","type":"number","era":"stars","number":8,"display":"8","count":2,"description":"Stars Era number card."},
+  {"id":"n-s-9","name":"Number 9","type":"number","era":"stars","number":9,"display":"9","count":2,"description":"Stars Era number card."},
+
+  {"id":"n-n-1","name":"Number 1","type":"number","era":"new-wave","number":1,"display":"1","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-2","name":"Number 2","type":"number","era":"new-wave","number":2,"display":"2","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-3","name":"Number 3","type":"number","era":"new-wave","number":3,"display":"3","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-4","name":"Number 4","type":"number","era":"new-wave","number":4,"display":"4","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-5","name":"Number 5","type":"number","era":"new-wave","number":5,"display":"5","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-6","name":"Number 6","type":"number","era":"new-wave","number":6,"display":"6","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-7","name":"Number 7","type":"number","era":"new-wave","number":7,"display":"7","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-8","name":"Number 8","type":"number","era":"new-wave","number":8,"display":"8","count":2,"description":"New Wave Era number card."},
+  {"id":"n-n-9","name":"Number 9","type":"number","era":"new-wave","number":9,"display":"9","count":2,"description":"New Wave Era number card."},
+
+  {"id":"dd-g","name":"Double Dhamaka","type":"power","era":"golden","count":2,"description":"Use only when you have exactly 5 cards, including Double Dhamaka. Give any 2 cards to one player. Same-Era CUT can stop it."},
+  {"id":"dd-m","name":"Double Dhamaka","type":"power","era":"mass","count":2,"description":"Use only when you have exactly 5 cards, including Double Dhamaka. Give any 2 cards to one player. Same-Era CUT can stop it."},
+  {"id":"dd-s","name":"Double Dhamaka","type":"power","era":"stars","count":2,"description":"Use only when you have exactly 5 cards, including Double Dhamaka. Give any 2 cards to one player. Same-Era CUT can stop it."},
+  {"id":"dd-n","name":"Double Dhamaka","type":"power","era":"new-wave","count":2,"description":"Use only when you have exactly 5 cards, including Double Dhamaka. Give any 2 cards to one player. Same-Era CUT can stop it."},
+
+  {"id":"cut-g","name":"CUT","type":"power","era":"golden","count":2,"description":"Can stop same-Era Double Dhamaka or same-Era All Time Industry Hittu."},
+  {"id":"cut-m","name":"CUT","type":"power","era":"mass","count":2,"description":"Can stop same-Era Double Dhamaka or same-Era All Time Industry Hittu."},
+  {"id":"cut-s","name":"CUT","type":"power","era":"stars","count":2,"description":"Can stop same-Era Double Dhamaka or same-Era All Time Industry Hittu."},
+  {"id":"cut-n","name":"CUT","type":"power","era":"new-wave","count":2,"description":"Can stop same-Era Double Dhamaka or same-Era All Time Industry Hittu."},
+
+  {"id":"ib-g","name":"Interval Bang","type":"power","era":"golden","count":2,"description":"Next player misses one turn. CUT cannot stop it."},
+  {"id":"ib-m","name":"Interval Bang","type":"power","era":"mass","count":2,"description":"Next player misses one turn. CUT cannot stop it."},
+  {"id":"ib-s","name":"Interval Bang","type":"power","era":"stars","count":2,"description":"Next player misses one turn. CUT cannot stop it."},
+  {"id":"ib-n","name":"Interval Bang","type":"power","era":"new-wave","count":2,"description":"Next player misses one turn. CUT cannot stop it."},
+
+  {"id":"bb-g","name":"Blockbuster Bomma","type":"wild","era":"golden","count":2,"description":"Wild card. You may play it even if you have a current-Era card. Its Era becomes the current Era."},
+  {"id":"bb-m","name":"Blockbuster Bomma","type":"wild","era":"mass","count":2,"description":"Wild card. You may play it even if you have a current-Era card. Its Era becomes the current Era."},
+  {"id":"bb-s","name":"Blockbuster Bomma","type":"wild","era":"stars","count":2,"description":"Wild card. You may play it even if you have a current-Era card. Its Era becomes the current Era."},
+  {"id":"bb-n","name":"Blockbuster Bomma","type":"wild","era":"new-wave","count":2,"description":"Wild card. You may play it even if you have a current-Era card. Its Era becomes the current Era."},
+
+  {"id":"atih-g","name":"All Time Industry Hittu","type":"power","era":"golden","count":2,"description":"Reverse + Draw 4. Same-Era CUT stops only the +4; the reversed direction remains."},
+  {"id":"atih-m","name":"All Time Industry Hittu","type":"power","era":"mass","count":2,"description":"Reverse + Draw 4. Same-Era CUT stops only the +4; the reversed direction remains."},
+  {"id":"atih-s","name":"All Time Industry Hittu","type":"power","era":"stars","count":2,"description":"Reverse + Draw 4. Same-Era CUT stops only the +4; the reversed direction remains."},
+  {"id":"atih-n","name":"All Time Industry Hittu","type":"power","era":"new-wave","count":2,"description":"Reverse + Draw 4. Same-Era CUT stops only the +4; the reversed direction remains."},
+
+  {"id":"aadhi","name":"AADHI","type":"unique","display":"👑","count":1,"description":"The only card with no Era and no number. Play only on your turn. Swap your entire hand with any one player."}
+]
