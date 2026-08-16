@@ -1,8 +1,6 @@
-# SHUBHAM — GitHub Pages Website
+# SHUBAM — GitHub Pages Website
 
 Write. Shuffle. Play.
-
-This project is intentionally data-driven.
 
 ## Folder structure
 
