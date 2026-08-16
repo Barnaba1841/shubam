@@ -1,0 +1,6 @@
+[
+  {"id":"golden","name":"Golden Era","description":"The legendary old-hero era. The official actor list will define which movies belong here.","actors":["NTR","ANR"]},
+  {"id":"mass","name":"Mass Era","description":"The mass-star era represented initially by the actors below. This list is fixed once you finalize it.","actors":["Chiranjeevi","Balakrishna","Venkatesh","Nagarjuna"]},
+  {"id":"stars","name":"Stars Era","description":"The modern superstar era represented initially by the actors below.","actors":["Mahesh Babu","Prabhas","Allu Arjun"]},
+  {"id":"new-wave","name":"New Wave Era","description":"The newer generation and new-wave era represented initially by the actors below.","actors":["Vijay Deverakonda","Kiran Abbavaram"]}
+]
