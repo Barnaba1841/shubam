@@ -812,9 +812,17 @@ function searchActor() {
    SHOW ACTOR RESULT
 ========================================================= */
 
+/* =========================================================
+   SHOW ACTOR RESULT
+========================================================= */
+
 function showActorResult(actor) {
 
   if (!actorSearchResult) return;
+
+
+  const iconSVG =
+    eraIcons[actor.eraId] || "";
 
 
   actorSearchResult.innerHTML = `
@@ -846,6 +854,12 @@ function showActorResult(actor) {
           class="result-era"
           style="color: ${actor.colour};"
         >
+          <span
+            class="result-era-icon"
+            style="color: ${actor.colour}; display: inline-flex; vertical-align: middle; margin-right: 6px;"
+          >
+            ${iconSVG}
+          </span>
           ${escapeHTML(actor.era)}
         </span>
 
@@ -856,8 +870,38 @@ function showActorResult(actor) {
   `;
 
 }
+/* =========================================================
+   ERA ICONS (SVG paths, matched to your era-colour-list)
+========================================================= */
 
+const eraIcons = {
 
+  golden: `
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-3-7z" />
+      <path d="M3 20h18" />
+    </svg>
+  `,
+
+  mass: `
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z" />
+    </svg>
+  `,
+
+  stars: `
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  `,
+
+  "new-wave": `
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+    </svg>
+  `
+
+};
 /* =========================================================
    NO RESULT
 ========================================================= */
